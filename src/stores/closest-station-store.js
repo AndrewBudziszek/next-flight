@@ -4,33 +4,33 @@ export const stationCode = writable([]);
 export const stationName = writable([]);
 let airportCodes = []
 
-export const fetchStation = async (lat,lon) => {
-    let url = `https://api.weather.gov/points/${lat}%2C${lon}/stations`    
+export const fetchStation = async (lat, lon) => {
+    let url = `https://api.weather.gov/points/${lat}%2C${lon}/stations`
     const res = await fetch(url);
     const data = await res.json();
 
     let bestStation = null;
 
     console.log('Finding closest weather station...')
-    if(data.observationStations.length > 0) {
-        for(let i = 0; i < data.observationStations.length && bestStation === null; i++) {
+    if (data.observationStations.length > 0) {
+        for (let i = 0; i < data.observationStations.length && bestStation === null; i++) {
             let currentStation = data.observationStations[i].substring(data.observationStations[i].lastIndexOf('/') + 1);
             console.log(`Checking if ${currentStation} is a supported airport code...`);
-            for(let j = 0; j < airportCodes.length && bestStation === null; j++) {
-                if(airportCodes[j].airportCode === currentStation) {
+            for (let j = 0; j < airportCodes.length && bestStation === null; j++) {
+                if (airportCodes[j].airportCode === currentStation) {
                     console.log(`Found ${currentStation}! Setting station...`);
                     bestStation = currentStation;
                     stationCode.set(bestStation);
                     stationName.set(airportCodes[j].airportName);
                 }
             }
-            if(bestStation === null) {
+            if (bestStation === null) {
                 console.log(`${currentStation} is not a supported airport code.`);
             }
         }
     }
 
-    if(bestStation === null) {
+    if (bestStation === null) {
         console.log('No weather station found.');
         // @ts-ignore
         stationName.set('No supported airport found close by.');
@@ -38,12 +38,12 @@ export const fetchStation = async (lat,lon) => {
 }
 
 function addAirportCode(code, name) {
-    airportCodes.push({airportCode: code, airportName: name});
+    airportCodes.push({ airportCode: code, airportName: name });
 }
 
 export const getAirportName = (code) => {
-    for(let i = 0; i < airportCodes.length; i++) {
-        if(airportCodes[i].airportCode === code) {
+    for (let i = 0; i < airportCodes.length; i++) {
+        if (airportCodes[i].airportCode === code) {
             return airportCodes[i].airportName;
         }
     }

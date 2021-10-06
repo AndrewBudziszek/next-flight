@@ -29,8 +29,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@sveltejs/adapter-vercel": "next",
     "axios": "^0.22.0",
-    "base-64": "^1.0.0",
     "svelte-geolocation": "^0.2.3"
   }
 }
