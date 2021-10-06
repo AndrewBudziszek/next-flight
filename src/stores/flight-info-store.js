@@ -32,9 +32,40 @@ export const fetchFlights = async (airportCode) => {
         if (upcomingFlights.length > 5) {
             upcomingFlights = upcomingFlights.slice(0, 5);
         }
+        addFlightTrackerURLToFlights(upcomingFlights);
+        console.log(upcomingFlights);
         flights.set(upcomingFlights);
     }
 };
+
+function addFlightTrackerURLToFlights(flights) {
+    for (let i = 0; i < flights.length; i++) {
+        let flight = flights[i];
+        let baseURL = 'https://flightaware.com/live/flight/'
+        let flightNumber = flight.number.substr(flight.number.indexOf(' ') + 1);
+        let carrierCode = 'NONE';
+        if (flight.airline.name === 'Southwest') {
+            carrierCode = 'SWA'
+        } else if (flight.airline.name === 'United') {
+            carrierCode = 'UAL'
+        } else if (flight.airline.name === 'American') {
+            carrierCode = 'AAL'
+        } else if (flight.airline.name === 'Delta') {
+            carrierCode = 'DAL'
+        } else if (flight.airline.name === 'Alaska') {
+            carrierCode = 'ASA'
+        } else if (flight.airline.name === 'JetBlue') {
+            carrierCode = 'JBU'
+        } else if (flight.airline.name === 'Spirit') {
+            carrierCode = 'NKS'
+        } else if (flight.airline.name === 'Frontier') {
+            carrierCode = 'FNT'
+        } else if (flight.airline.name === 'Allegiant') {
+            carrierCode = 'AAY'
+        }
+        flight.flightTrackerURL = `${baseURL}${carrierCode}${flightNumber}`;
+    }
+}
 
 function filterFlights(flights) {
     let filteredFlights = [];

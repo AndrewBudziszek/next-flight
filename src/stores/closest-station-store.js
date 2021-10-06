@@ -32,7 +32,6 @@ export const fetchStation = async (lat, lon) => {
 
     if (bestStation === null) {
         console.log('No weather station found.');
-        // @ts-ignore
         stationName.set('No supported airport found close by.');
     }
 }
