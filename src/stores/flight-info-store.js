@@ -1,12 +1,13 @@
 import { writable } from "svelte/store";
 import axios from 'axios';
+import moment from 'moment';
 
 export const flights = writable([]);
 
 export const fetchFlights = async (airportCode) => {
     console.log(`Fetching flights for ${airportCode}`)
-    var currentTime = dateBuilder(new Date());
-    var futureTime = dateBuilder(new Date(new Date().getTime() + 12 * 60 * 60 * 1000));
+    var currentTime = moment().format('YYYY-MM-DDTHH:mm:ss');
+    var futureTime = moment().add(12, 'hours').format('YYYY-MM-DDTHH:mm:ss');
     var options = {
         method: 'GET',
         url: `https://aerodatabox.p.rapidapi.com/flights/airports/icao/${airportCode}/${currentTime}/${futureTime}`,
@@ -32,8 +33,6 @@ export const fetchFlights = async (airportCode) => {
             upcomingFlights = upcomingFlights.slice(0, 5);
         }
         flights.set(upcomingFlights);
-    } else {
-        flights.set('No flights found within the next 12 hours...');
     }
 };
 
@@ -58,28 +57,4 @@ function filterFlights(flights) {
         }
     });
     return filteredFlights.sort((a, b) => { a.departure.scheduledTimeLocal - b.departure.scheduledTimeLocal });
-}
-
-function dateBuilder(date) {
-    //Convert date to YYYY-MM-DDTHH:MM
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-    var hour = date.getHours();
-    var min = date.getMinutes();
-
-    if (month.toString().length == 1) {
-        month = '0' + month;
-    }
-    if (day.toString().length == 1) {
-        day = '0' + day;
-    }
-    if (hour.toString().length == 1) {
-        hour = '0' + hour;
-    }
-    if (min.toString().length == 1) {
-        min = '0' + min;
-    }
-
-    return year + '-' + month + '-' + day + 'T' + hour + ':' + min;
 }

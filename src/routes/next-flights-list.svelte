@@ -47,6 +47,7 @@
 											<div class="flex items-center">
 												<div class="text-sm font-medium text-blue-600">
 													<a
+														target="_blank"
 														href={`https://www.kayak.com/tracker/${flight.number.substr(
 															0,
 															flight.number.indexOf(' ')
@@ -56,8 +57,8 @@
 														)}/${flight.departure.scheduledTimeLocal.substr(
 															0,
 															flight.departure.scheduledTimeLocal.indexOf(' ')
-														)}`}>{flight.number.replace(' ', '')}</a
-													>
+														)}`}>{flight.number.replace(' ', '')}
+														</a>
 												</div>
 											</div>
 										</td>
