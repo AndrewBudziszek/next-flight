@@ -46,9 +46,7 @@
 										>
 											<div class="flex items-center">
 												<div class="text-sm font-medium text-blue-600">
-													<a
-														target="_blank"
-														href={flight.flightTrackerURL}}>
+													<a target="_blank" href="{flight.flightTrackerURL}">
 														{flight.number.replace(' ', '')}
 													</a>
 												</div>
