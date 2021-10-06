@@ -64,6 +64,8 @@ function addFlightTrackerURLToFlights(flights) {
             carrierCode = 'AAY'
         }
         flight.flightTrackerURL = `${baseURL}${carrierCode}${flightNumber}`;
+        flight.formattedDepartureTime = moment(flight.departure.scheduledTimeLocal).format('MM/DD/YYYY hh:mm A');
+        flight.formattedArrivalTime = moment(flight.arrival.scheduledTimeLocal).format('MM/DD/YYYY hh:mm A');
     }
 }
 

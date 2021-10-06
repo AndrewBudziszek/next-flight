@@ -58,7 +58,7 @@
 											<div class="flex items-center">
 												<div class="text-sm font-medium text-gray-900">
 													{$stationName}<br />
-													{new Date(flight.departure.scheduledTimeLocal).toLocaleString()}
+													{flight.formattedDepartureTime}
 												</div>
 											</div>
 										</td>
@@ -68,7 +68,7 @@
 											<div class="flex items-center">
 												<div class="text-sm font-medium text-gray-900">
 													{getAirportName(flight.arrival.airport.icao)}<br />
-													{new Date(flight.arrival.scheduledTimeLocal).toLocaleString()}
+													{flight.formattedArrivalTime}
 												</div>
 											</div>
 										</td>
