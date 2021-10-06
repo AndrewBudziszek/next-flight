@@ -1,22 +1,24 @@
 <script>
-	let flightObj = {
-		"flightNumber": "2567",
-		"flightName": "SWA",
-		"flightDate": "10/1/2021",
-		"flightDepartureTime": "3:30PM",
-		"flightDuration": "2:30",
-		"flightArrivalTime": "5:30PM",
-		"flightFrom": "KMKE",
-		"flightTo": "FLL",
-		"flightPriceUSD": "169",
-		"flightStatus": "ON TIME",
-	}
-	let flights = []
-	flights.push(flightObj);
-	flights.push(flightObj);
-	flights.push(flightObj);
-	flights.push(flightObj);
-	flights.push(flightObj);
+	import {flights} from '../stores/flight-info-store';
+	import {stationName, getAirportName} from '../stores/closest-station-store';
+	// let flightObj = {
+	// 	"flightNumber": "2567",
+	// 	"flightName": "SWA",
+	// 	"flightDate": "10/1/2021",
+	// 	"flightDepartureTime": "3:30PM",
+	// 	"flightDuration": "2:30",
+	// 	"flightArrivalTime": "5:30PM",
+	// 	"flightFrom": "KMKE",
+	// 	"flightTo": "FLL",
+	// 	"flightPriceUSD": "169",
+	// 	"flightStatus": "ON TIME",
+	// }
+	// let flights = []
+	// flights.push(flightObj);
+	// flights.push(flightObj);
+	// flights.push(flightObj);
+	// flights.push(flightObj);
+	// flights.push(flightObj);
 </script>
 
 <!--Create a rounded table that lists flights using TailwindCSS and Svelte-->
@@ -60,41 +62,41 @@
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								{#each flights as flight}
+								{#each $flights as flight}
 								<tr>
 									<td
 										class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
 									>
 										<div class="flex items-center">
-											<div class="text-sm font-medium text-gray-900">{flight.flightName}{flight.flightNumber}</div>
+											<div class="text-sm font-medium text-gray-900">{flight.number}</div>
 										</div>
 									</td>
 									<td
 										class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
 									>
 										<div class="flex items-center">
-											<div class="text-sm font-medium text-gray-900">{flight.flightFrom} - {flight.flightDepartureTime}</div>
+											<div class="text-sm font-medium text-gray-900">{$stationName} - {new Date(flight.departure.scheduledTimeLocal).toLocaleString()}</div>
 										</div>
 									</td>
 									<td
 										class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
 									>
 										<div class="flex items-center">
-											<div class="text-sm font-medium text-gray-900">{flight.flightTo} - {flight.flightArrivalTime}</div>
+											<div class="text-sm font-medium text-gray-900">{getAirportName(flight.arrival.airport.icao)} - {new Date(flight.arrival.scheduledTimeLocal).toLocaleString()}</div>
 										</div>
 									</td>
 									<td
 										class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
 									>
 										<div class="flex items-center">
-											<div class="text-sm font-medium text-gray-900">{flight.flightDuration} (Estimated)</div>
+											<div class="text-sm font-medium text-gray-900">99:99 (Estimated)</div>
 										</div>
 									</td>
 									<td
 										class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
 									>
 										<div class="flex items-center">
-											<div class="text-sm font-medium text-green-500">${flight.flightPriceUSD}</div>
+											<div class="text-sm font-medium text-green-500">$6969</div>
 										</div>
 									</td>
 								</tr>
