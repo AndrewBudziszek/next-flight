@@ -32,5 +32,6 @@
 			</div>
 		</div>
 	</div>
-	<Ads/>
 </div>
+
+<Ads />
