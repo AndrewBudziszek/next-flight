@@ -14,7 +14,7 @@
 <ins 
     class="adsbygoogle"
     style="display:block"
-    data-ad-client="ca-pub-9155380222623167"
+    data-ad-client="ca-pub-2340680669187881"
     data-ad-slot="3792188932"
     data-ad-format="auto"
     data-full-width-responsive="true"
