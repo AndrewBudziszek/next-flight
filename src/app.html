@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%svelte.head%
-	</head>
-	<body>
-		<div id="svelte">%svelte.body%</div>
-		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2340680669187881"
-     crossorigin="anonymous"/>
-	</body>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="/favicon.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+	%svelte.head%
+</head>
+
+<body>
+	<div id="svelte">%svelte.body%</div>
+	<script>
+		function s(src) {
+			var e = document.createElement('script')
+			e.src = src
+			e.crossOrigin = "anonymous"
+			document.body.appendChild(e)
+		}
+		if (!window.requestIdleCallback) {
+			window.requestIdleCallback = function (cb) {
+				window.setTimeout(cb, 1)
+			}
+		}
+		window.requestIdleCallback(function () {
+			[
+				"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2340680669187881",
+			].map(s)
+		})
+	</script>
+</body>
+
 </html>
