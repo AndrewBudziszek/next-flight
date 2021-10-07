@@ -64,6 +64,7 @@ function addFlightTrackerURLToFlights(flights) {
             carrierCode = 'AAY'
         } else {
             carrierCode = flight.number.substr(0, flight.number.indexOf(' '));
+            console.log(`Unsupported carrier code found: ${carrierCode}`);
         }
         flight.flightTrackerURL = `${baseURL}${carrierCode}${flightNumber}`;
         flight.formattedDepartureTime = moment(flight.departure.scheduledTimeLocal).format('MM/DD/YYYY hh:mm A');
