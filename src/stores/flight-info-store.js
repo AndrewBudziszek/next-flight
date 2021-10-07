@@ -71,7 +71,7 @@ function addFlightTrackerURLToFlights(flights) {
 
 function filterFlights(flights) {
     let filteredFlights = [];
-    let unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'SIS', 'CNS']
+    let unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'SIS', 'CNS', 'Nolinor', 'Swift Air']
     flights.forEach(flight => {
         if (flight.arrival.airport.icao === undefined) {
             if (flight.arrival.airport.name === 'Minneapolis') {

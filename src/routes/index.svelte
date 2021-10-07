@@ -6,7 +6,8 @@
     window.adsbygoogle.push({})
   })
 </script>
-<svelte:head><title>✈️Next Flight✈️</title></svelte:head>
+<svelte:head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2340680669187881"
+crossorigin="anonymous"></script><title>✈️Next Flight✈️</title></svelte:head>
 
 <h1 class="text-white text-center my-8 text-4xl">✈️ Next Flight ✈️</h1>
 <p class="text-white text-center">Find the next flight outta here!</p>

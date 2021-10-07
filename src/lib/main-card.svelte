@@ -1,6 +1,5 @@
 <script>
 	import NextFlightsList from './next-flights-list.svelte';
-	import Ads from './ads.svelte';
 	import { stationName, stationCode, fetchStation } from '../stores/closest-station-store';
 	import { fetchFlights } from '../stores/flight-info-store';
 	import Geolocation from 'svelte-geolocation';
@@ -33,5 +32,3 @@
 		</div>
 	</div>
 </div>
-
-<Ads />
