@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 export const flights = writable([]);
+const unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'DVY', 'SIS', 'CNS', 'Nolinor', 'Swift Air', 'TCA', 'NetJets Aviation'];
 
 export const fetchFlights = async (airportCode) => {
     console.log(`Fetching flights for ${airportCode}`)
@@ -74,7 +75,6 @@ function addFlightTrackerURLToFlights(flights) {
 
 function filterFlights(flights) {
     let filteredFlights = [];
-    let unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'DVY', 'SIS', 'CNS', 'Nolinor', 'Swift Air', 'TCA']
     flights.forEach(flight => {
         if (flight.arrival.airport.icao === undefined) {
             if (flight.arrival.airport.name === 'Minneapolis') {
