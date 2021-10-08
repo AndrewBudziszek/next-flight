@@ -59,7 +59,7 @@ function addFlightTrackerURLToFlights(flights) {
         } else if (flight.airline.name === 'Spirit') {
             carrierCode = 'NKS'
         } else if (flight.airline.name === 'Frontier') {
-            carrierCode = 'FNT'
+            carrierCode = flight.airline.number.startsWith('F9') ? 'F9' : 'FNT'
         } else if (flight.airline.name === 'Allegiant') {
             carrierCode = 'AAY'
         } else {
