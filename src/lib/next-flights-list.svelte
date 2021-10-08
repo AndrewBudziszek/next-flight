@@ -48,6 +48,7 @@
 												<div class="text-sm font-medium text-blue-600">
 													<a target="_blank" href="{flight.flightTrackerURL}">
 														{flight.number.replace(' ', '')}
+														({flight.airline.name})
 													</a>
 												</div>
 											</div>
