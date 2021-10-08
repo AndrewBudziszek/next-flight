@@ -29,8 +29,8 @@ export const fetchFlights = async (airportCode) => {
     let res = await axios.request(options)
     if (res.data) {
         let upcomingFlights = filterFlights(res.data.departures);
-        if (upcomingFlights.length > 5) {
-            upcomingFlights = upcomingFlights.slice(0, 5);
+        if (upcomingFlights.length > 10) {
+            upcomingFlights = upcomingFlights.slice(0, 10);
         }
         addFlightTrackerURLToFlights(upcomingFlights);
         console.log(upcomingFlights);
