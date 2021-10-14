@@ -42,7 +42,7 @@ async function addPriceDataToFlight(flights) {
     for(var i = 0; i < flights.length; i++) {
         let flight = flights[i];
 
-        let url = `http://api.travelpayouts.com/v1/prices/calendar?depart_date=${moment(flight.departure.scheduledTimeLocal).format('YYYY-MM')}&origin=${get(stationCode).substr(1)}&destination=${flight.arrival.airport.icao.substr(1)}&calendar_type=departure_date&currency=USD&token=${import.meta.env.VITE_TRAVELPAYOUTS_API_TOKEN}`;
+        let url = `https://api.travelpayouts.com/v1/prices/calendar?depart_date=${moment(flight.departure.scheduledTimeLocal).format('YYYY-MM')}&origin=${get(stationCode).substr(1)}&destination=${flight.arrival.airport.icao.substr(1)}&calendar_type=departure_date&currency=USD&token=${import.meta.env.VITE_TRAVELPAYOUTS_API_TOKEN}`;
         let res = await axios.get(url);
         let firstKey = Object.keys(res.data.data)[0];
         if(res.data.data[firstKey]) {
