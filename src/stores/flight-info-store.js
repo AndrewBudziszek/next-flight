@@ -32,7 +32,7 @@ export const fetchFlights = async (airportCode) => {
     if (res.data) {
         let upcomingFlights = filterFlights(res.data.departures);
         addFlightTrackerURLToFlights(upcomingFlights);
-        addPriceDataToFlight(upcomingFlights);
+        await addPriceDataToFlight(upcomingFlights);
         console.log('Hello!', upcomingFlights)
         flights.set(upcomingFlights);
     }
@@ -47,6 +47,8 @@ async function addPriceDataToFlight(flights) {
         let firstKey = Object.keys(res.data.data)[0];
         if(res.data.data[firstKey]) {
             flight.avgPrice = res.data.data[firstKey].price;
+        } else {
+            flight.avgPrice = 99;
         }
     }
 }
