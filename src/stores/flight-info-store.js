@@ -1,12 +1,13 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
+import { stationCode, stationName } from "./closest-station-store";
 import axios from 'axios';
 import moment from 'moment';
 
 export const flights = writable([]);
-const unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'DVY', 'SIS', 'CNS', 'Nolinor', 'Swift Air', 'TCA', 'NetJets Aviation'];
+const unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'DVY', 'SIS', 'CNS', 'Nolinor', 'Swift Air', 'TCA', 'NetJets Aviation', 'Contour Aviation', 'BTX', 'A8', 'Ameriflight'];
 
 export const fetchFlights = async (airportCode) => {
-    console.log(`Fetching flights for ${airportCode}`)
+    console.log(`Fetching flights for ${airportCode}`);
     var currentTime = moment().format('YYYY-MM-DDTHH:mm:ss');
     var futureTime = moment().add(12, 'hours').format('YYYY-MM-DDTHH:mm:ss');
     var options = {
@@ -30,14 +31,25 @@ export const fetchFlights = async (airportCode) => {
     let res = await axios.request(options)
     if (res.data) {
         let upcomingFlights = filterFlights(res.data.departures);
-        if (upcomingFlights.length > 10) {
-            upcomingFlights = upcomingFlights.slice(0, 10);
-        }
         addFlightTrackerURLToFlights(upcomingFlights);
-        console.log(upcomingFlights);
+        addPriceDataToFlight(upcomingFlights);
+        console.log('Hello!', upcomingFlights)
         flights.set(upcomingFlights);
     }
 };
+
+async function addPriceDataToFlight(flights) {
+    for(var i = 0; i < flights.length; i++) {
+        let flight = flights[i];
+
+        let url = `http://api.travelpayouts.com/v1/prices/calendar?depart_date=${moment(flight.departure.scheduledTimeLocal).format('YYYY-MM')}&origin=${get(stationCode).substr(1)}&destination=${flight.arrival.airport.icao.substr(1)}&calendar_type=departure_date&currency=USD&token=${import.meta.env.VITE_TRAVELPAYOUTS_API_TOKEN}`;
+        let res = await axios.get(url);
+        let firstKey = Object.keys(res.data.data)[0];
+        if(res.data.data[firstKey]) {
+            flight.avgPrice = res.data.data[firstKey].price;
+        }
+    }
+}
 
 function addFlightTrackerURLToFlights(flights) {
     for (let i = 0; i < flights.length; i++) {
@@ -51,7 +63,7 @@ function addFlightTrackerURLToFlights(flights) {
             carrierCode = 'UAL'
         } else if (flight.airline.name === 'American') {
             carrierCode = 'AAL'
-        } else if (flight.airline.name === 'Delta') {
+        } else if (flight.airline.name === 'Delta' || flight.airline.name === "Delta Air Lines") {
             carrierCode = 'DAL'
         } else if (flight.airline.name === 'Alaska') {
             carrierCode = 'ASA'
@@ -60,17 +72,27 @@ function addFlightTrackerURLToFlights(flights) {
         } else if (flight.airline.name === 'Spirit') {
             carrierCode = 'NKS'
         } else if (flight.airline.name === 'Frontier') {
-            carrierCode = flight.number.startsWith('F9') ? 'F9' : 'FNT'
+            carrierCode = flight.number.startsWith('F9') ? 'F9' : 'FFT'
         } else if (flight.airline.name === 'Allegiant') {
             carrierCode = 'AAY'
         } else {
             carrierCode = flight.number.substr(0, flight.number.indexOf(' '));
-            console.log(`Unsupported carrier code found: ${carrierCode}`);
+            console.log(`Unsupported carrier code found: ${carrierCode}`, flight);
         }
         flight.flightTrackerURL = `${baseURL}${carrierCode}${flightNumber}`;
+        flight.affiliateLink = createAffiliateLink(flight);
         flight.formattedDepartureTime = moment(flight.departure.scheduledTimeLocal).format('MM/DD/YYYY hh:mm A');
         flight.formattedArrivalTime = moment(flight.arrival.scheduledTimeLocal).format('MM/DD/YYYY hh:mm A');
     }
+}
+
+function createAffiliateLink(flight) {
+    let baseURL = 'https://tp.media/r?marker=337003&trs=149718&p=4791&u=https%3A%2F%2Fsearch.jetradar.com%2Fflights%2F'
+    let dateString = moment(flight.departure.scheduledTimeLocal).format('DDMM');
+    let flightSearchCode = `${get(stationCode).substr(1)}${dateString}${flight.arrival.airport.icao.substr(1)}`;
+
+    //At the end of the URL there are three integers: 120 represents 1 adult, 2 children, and 0 infants.
+    return `${baseURL}${flightSearchCode}1`;
 }
 
 function filterFlights(flights) {
@@ -92,5 +114,11 @@ function filterFlights(flights) {
             filteredFlights.push(flight);
         }
     });
-    return filteredFlights.sort((a, b) => { a.departure.scheduledTimeLocal - b.departure.scheduledTimeLocal });
+    if (filteredFlights.length > 10) {
+        filteredFlights = filteredFlights.slice(0, 10);
+    }
+    let sortedFlights = filteredFlights.sort(function (left, right) {
+        return moment.utc(left.departure.scheduledTimeLocal).diff(moment.utc(right.departure.scheduledTimeLocal))
+    });
+    return sortedFlights;
 }

@@ -46,7 +46,7 @@
 										>
 											<div class="flex items-center">
 												<div class="text-sm font-medium text-blue-600">
-													<a target="_blank" href="{flight.flightTrackerURL}">
+													<a target="_blank" href="{flight.affiliateLink}">
 														{flight.number.replace(' ', '')}
 														({flight.airline.name})
 													</a>
@@ -77,7 +77,7 @@
 											class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
 										>
 											<div class="flex items-center">
-												<div class="text-sm font-medium text-green-500">$N/A</div>
+												<div class="text-sm font-medium text-green-500">${flight.avgPrice}</div>
 											</div>
 										</td>
 									</tr>
