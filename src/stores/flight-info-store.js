@@ -41,11 +41,11 @@ async function addPriceDataToFlight(flights) {
     for(var i = 0; i < flights.length; i++) {
         let flight = flights[i]; 
 
-        const baseURL = `https://flight-data-api.herokuapp.com/price?`;
+        const baseURL = `https://flight-data-api.herokuapp.com/`;
         let origin = get(stationCode).substr(1); // origin in icao format
         let destination = flight.arrival.airport.icao.substr(1);
         let depart_date = moment(flight.departure.scheduledTimeLocal).format('YYYY-MM');
-        let url = `${baseURL}origin=${origin}&destination=${destination}&depart_date=${depart_date}`;
+        let url = `${baseURL}price?origin=${origin}&destination=${destination}&depart_date=${depart_date}`;
 
         let res = await axios.get(url);
         flight.avgPrice = res.price;
