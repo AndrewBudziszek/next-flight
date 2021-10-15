@@ -40,16 +40,16 @@ export const fetchFlights = async (airportCode) => {
 
 async function addPriceDataToFlight(flights) {
     for(var i = 0; i < flights.length; i++) {
-        let flight = flights[i];
+        let flight = flights[i]; 
 
-        let url = `https://api.travelpayouts.com/v1/prices/calendar?depart_date=${moment(flight.departure.scheduledTimeLocal).format('YYYY-MM')}&origin=${get(stationCode).substr(1)}&destination=${flight.arrival.airport.icao.substr(1)}&calendar_type=departure_date&currency=USD&token=${import.meta.env.VITE_TRAVELPAYOUTS_API_TOKEN}`;
+        const baseURL = `https://flight-data-api.herokuapp.com/price?`;
+        let origin = get(stationCode).substr(1); // origin in icao format
+        let destination = flight.arrival.airport.icao.substr(1);
+        let depart_date = moment(flight.departure.scheduledTimeLocal).format('YYYY-MM');
+        let url = `${baseURL}origin=${origin}&destination=${destination}&depart_date=${depart_date}`;
+
         let res = await axios.get(url);
-        let firstKey = Object.keys(res.data.data)[0];
-        if(res.data.data[firstKey]) {
-            flight.avgPrice = res.data.data[firstKey].price;
-        } else {
-            flight.avgPrice = 99;
-        }
+        flight.avgPrice = res.price;
     }
 }
 
