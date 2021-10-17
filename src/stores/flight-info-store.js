@@ -4,10 +4,10 @@ import axios from 'axios';
 import moment from 'moment';
 
 export const flights = writable([]);
-const unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'DVY', 'SIS', 'CNS', 'Nolinor', 'Swift Air', 'TCA', 'NetJets Aviation', 'Contour Aviation', 'BTX', 'A8', 'Ameriflight'];
+const unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'DVY', 'SIS', 'CNS', 'Nolinor', 
+    'Swift Air', 'TCA', 'NetJets Aviation', 'Contour Aviation', 'BTX', 'A8', 'Ameriflight', 'CRE'];
 
 export const fetchFlights = async (airportCode) => {
-    console.log(`Fetching flights for ${airportCode}`);
     var currentTime = moment().format('YYYY-MM-DDTHH:mm:ss');
     var futureTime = moment().add(12, 'hours').format('YYYY-MM-DDTHH:mm:ss');
     var options = {
@@ -33,6 +33,7 @@ export const fetchFlights = async (airportCode) => {
         let upcomingFlights = filterFlights(res.data.departures);
         addFlightTrackerURLToFlights(upcomingFlights);
         await addPriceDataToFlight(upcomingFlights);
+        console.log('Upcoming flights', upcomingFlights)
         flights.set(upcomingFlights);
     }
 };
