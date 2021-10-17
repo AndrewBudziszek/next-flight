@@ -47,8 +47,8 @@ async function addPriceDataToFlight(flights) {
         const baseURL = `https://flight-data-api.herokuapp.com/price?origin=${origin}&destination=${destination}&depart_date=${depart_date}`;
 
         let res = await axios.get(baseURL);
-        console.log(res.data);
-        flight.avgPrice = res.price;
+        console.log(res);
+        flight.avgPrice = res.data.price;
     }
 }
 
