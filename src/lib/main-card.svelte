@@ -12,7 +12,9 @@
 		if (coords.length > 0 && !attemptedToGetAirport) {
 			attemptedToGetAirport = true;
 			await fetchStation(coords[1], coords[0]);
-			fetchFlights($stationCode);
+			if($stationCode){
+				fetchFlights($stationCode);
+			}
 		}
 	});
 </script>

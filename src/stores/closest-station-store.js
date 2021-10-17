@@ -11,6 +11,10 @@ export const fetchStation = async (lat, lon) => {
 
     let bestStation = null;
 
+    if(import.meta.env.VITE_ENV === 'PROD') {
+        console.log = function() {};
+    }
+
     console.log('Finding closest weather station...')
     if (data.observationStations.length > 0) {
         for (let i = 0; i < data.observationStations.length && bestStation === null; i++) {
