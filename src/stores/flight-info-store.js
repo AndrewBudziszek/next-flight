@@ -45,9 +45,9 @@ async function addPriceDataToFlight(flights) {
         let destination = flight.arrival.airport.icao.substr(1);
         let depart_date = moment(flight.departure.scheduledTimeLocal).format('YYYY-MM');
         const baseURL = `https://flight-data-api.herokuapp.com/price?origin=${origin}&destination=${destination}&depart_date=${depart_date}`;
-        
 
         let res = await axios.get(baseURL);
+        console.log(res.data);
         flight.avgPrice = res.price;
     }
 }
