@@ -33,7 +33,6 @@ export const fetchFlights = async (airportCode) => {
         let upcomingFlights = filterFlights(res.data.departures);
         addFlightTrackerURLToFlights(upcomingFlights);
         await addPriceDataToFlight(upcomingFlights);
-        console.log('Upcoming flights', upcomingFlights)
         flights.set(upcomingFlights);
     }
 };
