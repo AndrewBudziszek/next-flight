@@ -1,6 +1,7 @@
 <script>
 	import { flights } from '../stores/flight-info-store';
 	import { stationName, getAirportName } from '../stores/closest-station-store';
+	import { Circle2 } from 'svelte-loading-spinners'
 </script>
 
 <!--Create a rounded table that lists flights using TailwindCSS and Svelte-->
@@ -39,49 +40,53 @@
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								{#each $flights as flight}
-									<tr>
-										<td
-											class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
-										>
-											<div class="flex items-center">
-												<div class="text-sm font-medium text-blue-600">
-													<a target="_blank" href="{flight.affiliateLink}">
-														{flight.number.replace(' ', '')}
-														({flight.airline.name})
-													</a>
+								{#if flights.length > 0}
+									{#each $flights as flight}
+										<tr>
+											<td
+												class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
+											>
+												<div class="flex items-center">
+													<div class="text-sm font-medium text-blue-600">
+														<a target="_blank" href="{flight.affiliateLink}">
+															{flight.number.replace(' ', '')}
+															({flight.airline.name})
+														</a>
+													</div>
 												</div>
-											</div>
-										</td>
-										<td
-											class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
-										>
-											<div class="flex items-center">
-												<div class="text-sm font-medium text-gray-900">
-													{$stationName}<br />
-													{flight.formattedDepartureTime}
+											</td>
+											<td
+												class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
+											>
+												<div class="flex items-center">
+													<div class="text-sm font-medium text-gray-900">
+														{$stationName}<br />
+														{flight.formattedDepartureTime}
+													</div>
 												</div>
-											</div>
-										</td>
-										<td
-											class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
-										>
-											<div class="flex items-center">
-												<div class="text-sm font-medium text-gray-900">
-													{getAirportName(flight.arrival.airport.icao)}<br />
-													{flight.formattedArrivalTime}
+											</td>
+											<td
+												class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
+											>
+												<div class="flex items-center">
+													<div class="text-sm font-medium text-gray-900">
+														{getAirportName(flight.arrival.airport.icao)}<br />
+														{flight.formattedArrivalTime}
+													</div>
 												</div>
-											</div>
-										</td>
-										<td
-											class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
-										>
-											<div class="flex items-center">
-												<div class="text-sm font-medium text-green-500"><a target="_blank" href="{flight.affiliateLink}">${flight.avgPrice}</a></div>
-											</div>
-										</td>
-									</tr>
-								{/each}
+											</td>
+											<td
+												class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
+											>
+												<div class="flex items-center">
+													<div class="text-sm font-medium text-green-500"><a target="_blank" href="{flight.affiliateLink}">${flight.avgPrice}</a></div>
+												</div>
+											</td>
+										</tr>
+									{/each}
+									{:else}
+										<Circle2 size="60" color="#FF3E00" unit="px" duration="1s"/>
+								{/if}
 							</tbody>
 						</table>
 					</div>

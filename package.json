@@ -32,6 +32,7 @@
     "@sveltejs/adapter-vercel": "next",
     "axios": "^0.22.0",
     "moment": "^2.29.1",
-    "svelte-geolocation": "^0.2.3"
+    "svelte-geolocation": "^0.2.3",
+    "svelte-loading-spinners": "^0.1.7"
   }
 }
