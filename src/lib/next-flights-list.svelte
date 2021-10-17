@@ -40,7 +40,7 @@
 								</tr>
 							</thead>
 							<tbody class="bg-white divide-y divide-gray-200">
-								{#if flights.length > 0}
+								{#if $flights.length > 0}
 									{#each $flights as flight}
 										<tr>
 											<td
