@@ -4,8 +4,9 @@ import axios from 'axios';
 import moment from 'moment';
 
 export const flights = writable([]);
-const unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'DVY', 'SIS', 'CNS', 'Nolinor', 
-    'Swift Air', 'TCA', 'NetJets Aviation', 'Contour Aviation', 'BTX', 'A8', 'Ameriflight', 'CRE'];
+const unsupportedAirlines = ['Kabo Air', 'FLC', 'NKT', 'COL', 'DVY', 'SIS', 'CNS', 'Nolinor',
+    'Swift Air', 'TCA', 'NetJets Aviation', 'Contour Aviation', 'BTX', 'A8', 'Ameriflight', 'CRE',
+    'AirSprint'];
 
 export const fetchFlights = async (airportCode) => {
     var currentTime = moment().format('YYYY-MM-DDTHH:mm:ss');
@@ -38,8 +39,8 @@ export const fetchFlights = async (airportCode) => {
 };
 
 async function addPriceDataToFlight(flights) {
-    for(var i = 0; i < flights.length; i++) {
-        let flight = flights[i]; 
+    for (var i = 0; i < flights.length; i++) {
+        let flight = flights[i];
         let origin = get(stationCode).substr(1); // origin in icao format
         let destination = flight.arrival.airport.icao.substr(1);
         let depart_date = moment(flight.departure.scheduledTimeLocal).format('YYYY-MM');
